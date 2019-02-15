@@ -267,11 +267,13 @@ class AutoregressiveDecoder(ModelPart):
     def train_logits(self) -> tf.Tensor:
         # THE LAST TRAIN INPUT IS NOT USED IN DECODING FUNCTION
         # (just as a target)
-        return self.train_loop_result.histories.logits
+        train_result = LoopState(*self.train_loop_result)
+        return train_result.histories.logits
 
     @tensor
     def train_output_states(self) -> tf.Tensor:
-        return self.train_loop_result.histories.decoder_outputs
+        train_result = LoopState(*self.train_loop_result)
+        return train_result.histories.decoder_outputs
 
     @tensor
     def train_logprobs(self) -> tf.Tensor:
@@ -308,11 +310,13 @@ class AutoregressiveDecoder(ModelPart):
 
     @tensor
     def runtime_logits(self) -> tf.Tensor:
-        return self.runtime_loop_result.histories.logits
+        runtime_result = LoopState(*self.runtime_loop_result)
+        return runtime_result.histories.logits
 
     @tensor
     def runtime_output_states(self) -> tf.Tensor:
-        return self.runtime_loop_result.histories.decoder_outputs
+        runtime_result = LoopState(*self.runtime_loop_result)
+        return runtime_result.histories.decoder_outputs
 
     @tensor
     def runtime_mask(self) -> tf.Tensor:
